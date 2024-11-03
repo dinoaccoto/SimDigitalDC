@@ -3,7 +3,7 @@
 This program allows testing of digital controllers for position control of an armature-controlled DC motor. The controller can be expressed in the most general form as a finite difference equation (FDE). If one wishes to simulate the behavior of a PID controller, it is possible to use the naive approach in which the three gains are explicitly specified.
 
 ## Instructions
-bla bla
+### Please refer to Manual.pdf
 
 ## Example controllers
 ca = [2.931, -2.991, 1.165, -0.09988, -0.005737]

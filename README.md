@@ -1,4 +1,7 @@
 # SimDigitalDC - Simulation of DC motors digital control
+## What is it about
+bla bla
+
 ## Instructions
 bla bla
 

@@ -1,5 +1,5 @@
 # SimDigitalDC
- Simulation of DC motors digital control
+## Simulation of DC motors digital control
 
 Dino Accoto
 

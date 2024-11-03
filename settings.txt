@@ -1,0 +1,81 @@
+# Declare which motor model to use. Datasheets of motors should be in folder "motors".
+
+MOTOR_MODEL = "MaxonEC60flat"
+
+#########################################################################
+#
+# Rotation starts from 0°, that is on the x-axis. Positive rotations are CCW.
+# The motor will bring the load to the target following the shortest route on the circle.
+# Check therefore that the obstacle is not placed in front of the target.
+
+target_angle = 220.0 	# degrees; this is the angle to be reached
+angle_diff = -15.0 	# degrees; the obstacle is at "angle_diff" angular distance from the target
+tolerance  = 7.0 	# degrees; target or obstacle considered as hit if within such tolerance from the bar
+
+cpt = 128		# Encoder resolution in Counts Per Turn (cpt)
+#
+########################## Digital Controller ########################## 
+#
+# There are two possible modalities for the controller. 
+# If FDE_mode == True the controller is in the form of a FDE (y is the output, e is the input):
+#
+# 	y(k) = ca1 y(k-1)+ca2 y(k-2)+ca3 y(k-3) + ... + cb1 e(k) + cb2 e(k-1) + cb3 e(k-2) + ...
+#
+# The coefficients are defined in the lists ca and cb, e,g:
+#
+# 	ca = [0.1, 0.6667] 
+# 	cb = [334.2, -666.7, 332.5]
+
+# If FDE_mode == False, the controller is in a naive form:
+#
+# 	y(k) = Kp*e(k)+Kd*(e(k)-e)k-1))/Ts + Ki*SUM error*Ts
+########################################################################## 
+
+FDE_mode = True 	# Choose which form of controller you want to use
+
+############## Parameters to be used if FDE_mode == True: ################
+
+ca = [0.3333, 0.6667]     # 3.53 ok
+cb = [334.2, -666.7, 332.5]
+
+
+############## Parameters to be used if FDE_mode == False: ###############
+
+Kp = 1.0	# If FDE_mode == True, Kp, Kd and Ki are not used
+Kd = 0.0
+Ki = 0.0
+
+########################################################################### 
+
+CHECK_VOLTAGE_SATURATION = False 	# If True simulate voltage saturation
+CHECK_CURRENT_SATURATION = False 	# If True simulate current saturation
+max_voltage_overhoot = 1.0 		# Allowed overshoot over nominal voltage
+max_current_overshoot = 1.3 		# Allowed overshoot over nominal current
+
+REDUCTION_RATIO = 5	# Reduction gear
+
+LOAD_INERTIA = 0.4 	# kg * m^2
+AMPLIFIER = 1 		# an AMPLIFIER increases the voltage output by the microcontroller
+
+FPS = 40  		# Framerate
+N_control = 5  		# How many control loops are executed between two refreshes
+			# The sampling time is: Ts = 1/(FPS*N_control)
+			# If Ts is given, FPS and N_Control should be computed accordingly
+N_physics = 50  	# number of physics loop in each Ts period
+			# dt = Ts/N_physics (time infinitesimal in the physics loop)
+
+##############################################################################################
+# Some interesting controllers:
+
+#ca = [2.931, -2.991, 1.165, -0.09988, -0.005737]        # 0.42 KO
+#cb = [0, 0.06544, -0.007137, -0.1576, 0.0941, 0.005737]
+
+#ca = [1.0, 0.0]   # 3.85 ok, sensitive to cb
+#cb = [200.5, -400, 199.5]
+
+#ca = [0.3333, 0.6667]     # 3.53 ok
+#cb = [334.2, -666.7, 332.5]
+
+################################# Interesting facts #########################################
+# 1) if angles are measured from the motor perspective, there are larger oscillations at the end
+# 2) cpt has an impact not only on precision, but also on time

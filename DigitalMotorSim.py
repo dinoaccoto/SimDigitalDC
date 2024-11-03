@@ -1,11 +1,3 @@
-#####################   Dino Accoto, 25-30 October 2024   #######################
-# 
-#### 3/11:  - module "grafica.py" moved into "resources"
-#           - creater folder "motors"
-#           - also the motor model to be used is now declared in settings.txt rather than in this file 
-#           - to do the above, importlib is used
-# 
-#################################################################################
 import numpy as np
 import sys # Used only for closing the window upon pressing ESC
 import pygame # to manage the graphic interface 
